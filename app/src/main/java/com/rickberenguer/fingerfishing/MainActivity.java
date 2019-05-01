@@ -12,6 +12,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     private Button hiScoreButton;
+    private Button playButton;
 
     int screenWidth;
     int screenHeight;
@@ -35,10 +36,23 @@ public class MainActivity extends AppCompatActivity {
                 openHiScoreActivity();
             }
         });
+
+        playButton = (Button) findViewById(R.id.playButton);
+        playButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                openGame_activity();
+            }
+        });
     }
 
     public void openHiScoreActivity(){
         Intent intent = new Intent(this, HiScoreActivity.class);
+        startActivity(intent);
+    }
+
+    public void openGame_activity(){
+        Intent intent = new Intent(this, Game_activity.class);
         startActivity(intent);
     }
 }
