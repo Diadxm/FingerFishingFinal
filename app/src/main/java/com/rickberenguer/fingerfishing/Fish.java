@@ -40,7 +40,7 @@ public class Fish{
                 break;
 
             case 7:
-                this.name = "Harring";
+                this.name = "Herring";
                 break;
 
             default:
