@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button hiScoreButton;
     private Button playButton;
+    private Button quitButton;
 
     int screenWidth;
     int screenHeight;
@@ -42,6 +43,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 openGame_activity();
+            }
+        });
+
+        quitButton = (Button) findViewById(R.id.quitButton);
+        quitButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                finish();
+                System.exit(0);
             }
         });
     }
