@@ -11,10 +11,12 @@ import org.w3c.dom.Text;
 public class Game_activity extends AppCompatActivity {
 
     //Erick-Hobbs
+    //////////////
     private TextView textView3;
     private ProgressBar catchProgressBar;
     private SeekBar catchBar;
-    //
+    //////////////////////
+    /////////////////////
 
     TextView fishText;
 
@@ -31,7 +33,8 @@ public class Game_activity extends AppCompatActivity {
 
         fishText.setText(((Fish) fish).NameOfFish());
 
-        //Erick-Hobbs
+        //Erick-Hobbs/////////////
+        //////////////////////////
         textView3 = (TextView) findViewById(R.id.textView3);
         catchProgressBar = (ProgressBar) findViewById(R.id.catchProgressBar);
         catchBar = (SeekBar) findViewById(R.id.catchBar);
@@ -53,6 +56,7 @@ public class Game_activity extends AppCompatActivity {
 
             }
         });
-        ///////////////
+        ////////////////
+        ////////////////
     }
 }
