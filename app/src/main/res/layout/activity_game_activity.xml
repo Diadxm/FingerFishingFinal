@@ -94,13 +94,15 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:layerType="software"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.51"
-        app:srcCompat="@drawable/fishing" />
+        app:srcCompat="@drawable/fishing"
+        />
 
     <com.ebanx.swipebtn.SwipeButton
         android:id="@+id/castSwipe"
@@ -110,14 +112,14 @@
         android:layout_marginTop="459dp"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="212dp"
-        app:inner_text="SWIPE TO CAST"
-        app:inner_text_size="18sp"
-        app:inner_text_bottom_padding="20dp"
-        app:inner_text_top_padding="20dp"
         app:button_bottom_padding="20dp"
         app:button_left_padding="20dp"
         app:button_right_padding="20dp"
         app:button_top_padding="20dp"
+        app:inner_text="SWIPE TO CAST"
+        app:inner_text_bottom_padding="20dp"
+        app:inner_text_size="18sp"
+        app:inner_text_top_padding="20dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
