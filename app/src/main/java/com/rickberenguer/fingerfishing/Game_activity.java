@@ -19,6 +19,9 @@ import com.ebanx.swipebtn.SwipeButton;
 
 import org.w3c.dom.Text;
 
+import java.util.Timer;
+import java.util.concurrent.Delayed;
+
 public class Game_activity extends AppCompatActivity {
 
 
@@ -58,10 +61,12 @@ public class Game_activity extends AppCompatActivity {
         castSwipe.setOnStateChangeListener(new OnStateChangeListener() {
             @Override
             public void onStateChange(boolean active) {
-                RotateAnimation rotate = new RotateAnimation(0, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                rotate.setDuration(5000);
+                RotateAnimation rotate = new RotateAnimation(-90, 90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                rotate.setDuration(1000);
                 rotate.setInterpolator(new LinearInterpolator());
                 fishingPoleImage.startAnimation(rotate);
+                fishingPoleImage.setVisibility(View.GONE);
+                castSwipe.setVisibility(View.GONE);
             }
         });
         //////////////////////
