@@ -41,7 +41,7 @@
         android:layout_width="355dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="232dp"
+        android:layout_marginTop="276dp"
         android:layout_marginEnd="8dp"
         android:background="@android:color/holo_blue_dark"
         android:backgroundTint="#00CF0303"
@@ -81,10 +81,10 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.745"
+        app:layout_constraintHorizontal_bias="0.985"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.639" />
+        app:layout_constraintVertical_bias="0.785" />
 
     <ImageView
         android:id="@+id/fishingPole"
@@ -101,5 +101,30 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.51"
         app:srcCompat="@drawable/fishing" />
+
+    <com.ebanx.swipebtn.SwipeButton
+        android:id="@+id/castSwipe"
+        android:layout_width="355dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="459dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="212dp"
+        app:inner_text="SWIPE TO CAST"
+        app:inner_text_size="18sp"
+        app:inner_text_bottom_padding="20dp"
+        app:inner_text_top_padding="20dp"
+        app:button_bottom_padding="20dp"
+        app:button_left_padding="20dp"
+        app:button_right_padding="20dp"
+        app:button_top_padding="20dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
 
 </android.support.constraint.ConstraintLayout>

@@ -8,6 +8,9 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.ebanx.swipebtn.OnStateChangeListener;
+import com.ebanx.swipebtn.SwipeButton;
+
 import org.w3c.dom.Text;
 
 public class Game_activity extends AppCompatActivity {
@@ -18,6 +21,7 @@ public class Game_activity extends AppCompatActivity {
     private TextView textView3;
     private ProgressBar catchProgressBar;
     private SeekBar catchBar;
+    SwipeButton castSwipe;
 
     int screenWidth;
     int screenHeight;
@@ -41,6 +45,14 @@ public class Game_activity extends AppCompatActivity {
         display.getSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
+
+        castSwipe = (SwipeButton) findViewById(R.id.castSwipe);
+        castSwipe.setOnStateChangeListener(new OnStateChangeListener() {
+            @Override
+            public void onStateChange(boolean active) {
+                
+            }
+        });
         //////////////////////
         /////////////////////
 
@@ -53,7 +65,6 @@ public class Game_activity extends AppCompatActivity {
 
         fishText.setText(((Fish) fish).NameOfFish());
 
-        
         //Erick-Hobbs/////////////
         //////////////////////////
         textView3 = (TextView) findViewById(R.id.textView3);
