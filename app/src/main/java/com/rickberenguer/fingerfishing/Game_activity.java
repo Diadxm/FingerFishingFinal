@@ -1,44 +1,33 @@
 package com.rickberenguer.fingerfishing;
 
 import android.graphics.Point;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.os.Bundle;
-import android.os.Build;
 import android.view.Display;
-import android.widget.ProgressBar;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.view.View;
-import android.widget.ImageView;
-import android.support.annotation.RequiresApi;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
-import com.ebanx.swipebtn.OnStateChangeListener;
-import com.ebanx.swipebtn.SwipeButton;
+import android.widget.TextView;
+import android.widget.ImageView;
 
-import org.w3c.dom.Text;
-
-import java.util.Timer;
-import java.util.concurrent.Delayed;
 
 public class Game_activity extends AppCompatActivity {
 
-
-    //Erick-Hobbs
-    //////////////
-    private TextView textView3;
-    private ProgressBar catchProgressBar;
-    private SeekBar catchBar;
-    SwipeButton castSwipe;
-
+    ////Erick-Hobbs///
+    /////////////////
     int screenWidth;
     int screenHeight;
-
     ImageView fishingPoleImage;
+
+    //used to display swipe or tap status info
+    private TextView textView = null;
+    //gesture detector compat instance
+    private GestureDetectorCompat gestureDetectorCompat = null;
     //////////////////////
     /////////////////////
-
 
     TextView fishText;
 
@@ -47,64 +36,54 @@ public class Game_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_activity);
 
-        //Erick-Hobbs
-        //////////////
-        fishingPoleImage = findViewById(R.id.fishingPole);
-        //find out the width and height of the screen
+        ////Erick-Hobbs///
+        /////////////////
+
+        //find out the width and height of the screen//
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
 
-        castSwipe = (SwipeButton) findViewById(R.id.castSwipe);
-        castSwipe.setOnStateChangeListener(new OnStateChangeListener() {
-            @Override
-            public void onStateChange(boolean active) {
-                RotateAnimation rotate = new RotateAnimation(-90, 90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                rotate.setDuration(1000);
-                rotate.setInterpolator(new LinearInterpolator());
-                fishingPoleImage.startAnimation(rotate);
-                fishingPoleImage.setVisibility(View.GONE);
-                castSwipe.setVisibility(View.GONE);
-            }
-        });
-        //////////////////////
-        /////////////////////
+        // get text view
+        textView = (TextView)findViewById(R.id.swipe_direction);
 
+        // gesture listener object
+        DetectSwipeGestureListener gestureListener = new DetectSwipeGestureListener();
+        // Set activity in the listener
+        gestureListener.setActivity(this);
+
+        //gesture detector with the gesture listener
+        gestureDetectorCompat = new GestureDetectorCompat(this, gestureListener);
+
+        ////////////////
+        ////////////////
 
         fishText = (TextView)findViewById(R.id.FishName);
-
         Object fish = new Fish();
-
         ((Fish) fish).CreateFish();
-
         fishText.setText(((Fish) fish).NameOfFish());
-
-        //Erick-Hobbs/////////////
-        //////////////////////////
-        textView3 = (TextView) findViewById(R.id.textView3);
-        catchProgressBar = (ProgressBar) findViewById(R.id.catchProgressBar);
-        catchBar = (SeekBar) findViewById(R.id.catchBar);
-
-        catchBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                catchProgressBar.setProgress(progress);
-                textView3.setText("" + progress + "%");
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-        ////////////////
-        ////////////////
     }
+
+    ////Erick-Hobbs///
+    /////////////////
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        // pass activity on touch event to the gesture detector
+        gestureDetectorCompat.onTouchEvent(event);
+        // return true to tell OS event has been consumed, do not pass to other event listeners
+        return true;
+    }
+
+    public void displayMessage(String message)
+    {
+        if(textView!=null)
+        {
+            // Display text in the text view.
+            textView.setText(message);
+        }
+    }
+    ////////////////
+    ////////////////
 }

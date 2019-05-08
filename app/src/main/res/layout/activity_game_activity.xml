@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".Game_activity">
 
+    <ImageView
+        android:id="@+id/FishImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="196dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/sym_def_app_icon" />
+
     <TextView
         android:id="@+id/FishName"
         android:layout_width="wrap_content"
@@ -21,70 +34,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.091" />
-
-    <ImageView
-        android:id="@+id/FishImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="196dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
-
-    <ProgressBar
-        android:id="@+id/catchProgressBar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="355dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="276dp"
-        android:layout_marginEnd="8dp"
-        android:background="@android:color/holo_blue_dark"
-        android:backgroundTint="#00CF0303"
-        android:indeterminateBehavior="repeat"
-        android:indeterminateOnly="false"
-        android:progressTint="#00FF09"
-        android:scrollbarSize="8dp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/FishImage" />
-
-    <SeekBar
-        android:id="@+id/catchBar"
-        android:layout_width="355dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:progressTint="@color/colorPrimary"
-        android:scrollbarSize="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/catchProgressBar"
-        app:layout_constraintVertical_bias="0.505" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="0%"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.985"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.785" />
 
     <ImageView
         android:id="@+id/fishingPole"
@@ -104,29 +53,20 @@
         app:srcCompat="@drawable/fishing"
         />
 
-    <com.ebanx.swipebtn.SwipeButton
-        android:id="@+id/castSwipe"
-        android:layout_width="355dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="459dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="212dp"
-        app:button_bottom_padding="20dp"
-        app:button_left_padding="20dp"
-        app:button_right_padding="20dp"
-        app:button_top_padding="20dp"
-        app:inner_text="SWIPE TO CAST"
-        app:inner_text_bottom_padding="20dp"
-        app:inner_text_size="18sp"
-        app:inner_text_top_padding="20dp"
-
+    <TextView
+        android:id="@+id/swipe_direction"
+        android:layout_width="102dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-
+        app:layout_constraintVertical_bias="0.642"
+        android:text="Swipe/touch me"
         />
-
 
 </android.support.constraint.ConstraintLayout>

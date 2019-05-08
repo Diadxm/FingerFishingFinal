@@ -27,5 +27,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     //add new library for swipe button
-    implementation 'com.ebanx:swipe-button:0.4.0'
+    implementation 'com.ebanx:swipe-button:0.8.3'
 }
