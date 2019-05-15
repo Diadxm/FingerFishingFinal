@@ -41,6 +41,7 @@ public class Game_activity extends AppCompatActivity{
 
     private SoundPool soundPool;
     private int sound1;
+    private int sound2;
 
     //////////////////////
     /////////////////////
@@ -68,10 +69,13 @@ public class Game_activity extends AppCompatActivity{
         }
 
         sound1 = soundPool.load(this, R.raw.ropeswoosh,1);
+        sound2 = soundPool.load(this, R.raw.loon,1);
 
         myHandler = new Handler() {
             public void handleMessage(Message msg){
                 super.handleMessage(msg);
+
+
 
                 if (cast){
                     releaseRod();
@@ -228,7 +232,8 @@ public class Game_activity extends AppCompatActivity{
     }
 
     public void playSound(){
-        soundPool.play(sound1,1,1,0, 0,1);
+            soundPool.play(sound1, 1, 1, 0, 0, 1);
+            soundPool.play(sound2, 1, 1, 0, 1, 1);
     }
     @Override
     protected void onDestroy(){
