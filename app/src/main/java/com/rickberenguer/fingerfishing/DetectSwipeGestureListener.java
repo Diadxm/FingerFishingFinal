@@ -1,10 +1,8 @@
 package com.rickberenguer.fingerfishing;
 
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 public class DetectSwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -37,25 +35,50 @@ public class DetectSwipeGestureListener extends GestureDetector.SimpleOnGestureL
         {
             if(deltaX > 0)
             {
-                this.activity.displayMessage("swipe left");
-                RotateAnimation rotate = new RotateAnimation(-90, 90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-                rotate.setDuration(1000);
-                rotate.setInterpolator(new LinearInterpolator());
-                fishingPoleImage.startAnimation(rotate);
-                //fishingPoleImage.setVisibility(View.GONE);
+                //this.activity.displayMessage("swipe left");
+
             }else
             {
-                this.activity.displayMessage("swipe right");
+                //this.activity.displayMessage("swipe right");
             }
         }
         return true;
     }
 
-    //single tap on screen
     @Override
-    public boolean onSingleTapConfirmed(MotionEvent e) {
-        this.activity.displayMessage("single tap");
+    public boolean onDown(MotionEvent e) {
+        //Log.d("Gesture ", " onDown");
         return true;
     }
 
+     @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        //Log.d("Gesture ", " onSingleTapUp");
+        return true;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+        //Log.d("Gesture ", " onShowPress");
+    }
+
+
+    //single tap on screen
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent e) {
+        //this.activity.displayMessage("single tap");
+        return true;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+        //Log.d("Gesture ", " onLongPress");
+    }
+
 }
+
+    /*RotateAnimation rotate = new RotateAnimation(-90, 90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+    rotate.setDuration(1000);
+    rotate.setInterpolator(new LinearInterpolator());
+    fishingPoleImage.startAnimation(rotate);
+    fishingPoleImage.setVisibility(View.GONE);*/
