@@ -1,23 +1,24 @@
 package com.rickberenguer.fingerfishing;
 
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.graphics.Point;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.os.Bundle;
 import android.view.Display;
-import android.view.VelocityTracker;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ImageView;
+
+import java.io.IOException;
 
 
 public class Game_activity extends AppCompatActivity{
@@ -38,13 +39,9 @@ public class Game_activity extends AppCompatActivity{
 
     private float rotation;
 
-    private static final String DEBUG_TAG = "Velocity";///ERICK HOBBS MAY 13/////
-    private VelocityTracker mVelocityTracker = null;///ERICK HOBBS MAY 13//////
+    private SoundPool soundPool;
+    private int sound1;
 
-    //used to display swipe or tap status info
-    private TextView textView = null;
-    //gesture detector compat instance
-    private GestureDetectorCompat gestureDetectorCompat = null;
     //////////////////////
     /////////////////////
 
@@ -57,12 +54,28 @@ public class Game_activity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_activity);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
+            soundPool = new SoundPool.Builder()
+                    .setMaxStreams(5)
+                    .setAudioAttributes(audioAttributes)
+                    .build();
+        } else {
+            soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        }
+
+        sound1 = soundPool.load(this, R.raw.ropeswoosh,1);
+
         myHandler = new Handler() {
             public void handleMessage(Message msg){
                 super.handleMessage(msg);
 
                 if (cast){
                     releaseRod();
+
                 }
                 myHandler.sendEmptyMessageDelayed(0, 40);
             }
@@ -79,17 +92,6 @@ public class Game_activity extends AppCompatActivity{
         display.getSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
-
-        // get text view
-        //textView = (TextView)findViewById(R.id.swipe_direction);
-
-        // gesture listener object
-        DetectSwipeGestureListener gestureListener = new DetectSwipeGestureListener();
-        // Set activity in the listener
-        gestureListener.setActivity(this);
-
-        //gesture detector with the gesture listener
-        gestureDetectorCompat = new GestureDetectorCompat(this, gestureListener);
 
         ////////////////
         ////////////////
@@ -111,10 +113,6 @@ public class Game_activity extends AppCompatActivity{
         int index = event.getActionIndex();
         int action = event.getActionMasked();
 
-        // pass activity on touch event to the gesture detector
-        //gestureDetectorCompat.onTouchEvent(event);
-
-
         switch(action){
         case MotionEvent.ACTION_DOWN:
             startTx = (int)event.getRawX();
@@ -129,6 +127,7 @@ public class Game_activity extends AppCompatActivity{
             startTx = 0;
             movingTx = 0;
             cast = true;
+            playSound();
             break;
         case MotionEvent.ACTION_CANCEL:
         break;
@@ -144,6 +143,7 @@ public class Game_activity extends AppCompatActivity{
             rotation--;
             setPower();
             fishingPoleImage.setRotation(rotation);
+
         }
     }
 
@@ -225,5 +225,15 @@ public class Game_activity extends AppCompatActivity{
             rotation = -45f;
             fishingPoleImage.setRotation(rotation);
         }
+    }
+
+    public void playSound(){
+        soundPool.play(sound1,1,1,0, 0,1);
+    }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        soundPool.release();
+        soundPool = null;
     }
 }
