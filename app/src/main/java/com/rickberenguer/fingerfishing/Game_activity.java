@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import java.io.IOException;
 import java.util.Random;
@@ -75,10 +76,6 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
     private boolean catchingFish = false;
     private boolean startCatching = false;
 
-    ////Erick-Hobbs///
-    /////////////////
-    int screenWidth;
-    int screenHeight;
     ImageView fishingPoleImage;
 
     ProgressBar castBar;
