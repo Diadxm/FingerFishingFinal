@@ -55,6 +55,8 @@ public class Game_activity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_activity);
 
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             AudioAttributes audioAttributes = new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
@@ -69,13 +71,11 @@ public class Game_activity extends AppCompatActivity{
         }
 
         sound1 = soundPool.load(this, R.raw.ropeswoosh,1);
-        sound2 = soundPool.load(this, R.raw.loon,1);
+        sound2 = soundPool.load(this, R.raw.fishingtheme,1);
 
         myHandler = new Handler() {
             public void handleMessage(Message msg){
                 super.handleMessage(msg);
-
-
 
                 if (cast){
                     releaseRod();
@@ -84,8 +84,9 @@ public class Game_activity extends AppCompatActivity{
                 myHandler.sendEmptyMessageDelayed(0, 40);
             }
         };
-        myHandler.sendEmptyMessage(0);
 
+        soundPool.play(sound2,1,1,1,0,1);
+        myHandler.sendEmptyMessage(0);
 
         ////Erick-Hobbs///
         /////////////////
@@ -131,7 +132,6 @@ public class Game_activity extends AppCompatActivity{
             startTx = 0;
             movingTx = 0;
             cast = true;
-            playSound();
             break;
         case MotionEvent.ACTION_CANCEL:
         break;
@@ -147,7 +147,7 @@ public class Game_activity extends AppCompatActivity{
             rotation--;
             setPower();
             fishingPoleImage.setRotation(rotation);
-
+            soundPool.play(sound1, 1, 1, 0, 0, 0.5f);
         }
     }
 
@@ -232,8 +232,7 @@ public class Game_activity extends AppCompatActivity{
     }
 
     public void playSound(){
-            soundPool.play(sound1, 1, 1, 0, 0, 1);
-            soundPool.play(sound2, 1, 1, 0, 1, 1);
+        soundPool.play(sound2, 1, 1, 0, 0, 1);
     }
     @Override
     protected void onDestroy(){
@@ -241,4 +240,6 @@ public class Game_activity extends AppCompatActivity{
         soundPool.release();
         soundPool = null;
     }
+
+
 }
