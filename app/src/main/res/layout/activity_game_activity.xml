@@ -2,38 +2,22 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintWindow"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Game_activity">
 
-    <TextView
-        android:id="@+id/FishName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.869"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.091" />
-
     <ImageView
-        android:id="@+id/FishImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="196dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        android:id="@+id/imageView"
+        android:layout_width="1794dp"
+        android:layout_height="742dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+        app:layout_constraintVertical_bias="0.518"
+        app:srcCompat="@drawable/level_one" />
 
     <ProgressBar
         android:id="@+id/catchProgressBar"
@@ -41,8 +25,9 @@
         android:layout_width="355dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="232dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:background="@android:color/holo_blue_dark"
         android:backgroundTint="#00CF0303"
         android:indeterminateBehavior="repeat"
@@ -50,55 +35,45 @@
         android:progressTint="#00FF09"
         android:scrollbarSize="8dp"
         android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/FishImage" />
-
-    <SeekBar
-        android:id="@+id/catchBar"
-        android:layout_width="355dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:progressTint="@color/colorPrimary"
-        android:scrollbarSize="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/catchProgressBar"
-        app:layout_constraintVertical_bias="0.505" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95" />
 
     <ImageView
-        android:id="@+id/Background"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="129dp"
-        android:layout_marginTop="278dp"
-        android:layout_marginEnd="282dp"
-        android:layout_marginBottom="453dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:id="@+id/catchBlock"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:rotation="90"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:srcCompat="@tools:sample/avatars[3]" />
+        app:srcCompat="@drawable/catchblock" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="0%"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.745"
+    <ImageView
+        android:id="@+id/Fish"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.639" />
+        app:srcCompat="@drawable/busyfish" />
+
+    <Button
+        android:id="@+id/buttonDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Movedown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/buttonUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="moveUp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
