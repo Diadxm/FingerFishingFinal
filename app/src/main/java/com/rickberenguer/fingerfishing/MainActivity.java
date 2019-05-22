@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         display.getSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
-
+        playSound();
         hiScoreButton = (Button) findViewById(R.id.hiScoreButton);
         hiScoreButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        playSound();
+
     }
 
     public void playSound(){
