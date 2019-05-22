@@ -91,7 +91,6 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
 
     private SoundPool soundPool;
     private int sound1;//rod swoosh
-    private int sound2;//background
     private boolean soundPlaying = false;
     private MediaPlayer mediaPlayer;
 
@@ -104,7 +103,6 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_activity);
-
 
         //find out the width and height of the screen
         Display display = getWindowManager().getDefaultDisplay();
@@ -153,8 +151,7 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
         }
 
         sound1 = soundPool.load(this, R.raw.ropeswoosh,1);
-        sound2 = soundPool.load(this, R.raw.fishingtheme,1);//background
-        mediaPlayer = MediaPlayer.create(this, R.raw.fishingtheme);
+        mediaPlayer = MediaPlayer.create(this, R.raw.backgroundmusic);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
 
@@ -522,11 +519,6 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
             rotation = -45f;
             fishingPoleImage.setRotation(rotation);
         }
-    }
-
-    public void playSound(){
-
-        soundPool.play(sound2, 1, 1, 0, 0, 1);
     }
 
     @Override
