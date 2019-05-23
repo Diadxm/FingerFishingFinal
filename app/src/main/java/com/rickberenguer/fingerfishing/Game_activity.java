@@ -125,12 +125,12 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
         fishImage = (ImageView)findViewById(R.id.Fish);
         fishImage.getLayoutParams().height = imageSize;
         fishImage.getLayoutParams().width = imageSize;
-        //fishImage.setVisibility(View.INVISIBLE);
+        fishImage.setVisibility(View.INVISIBLE);
 
         catchBlock = (ImageView)findViewById(R.id.catchBlock);
         catchBlock.getLayoutParams().height = imageSize;
         catchBlock.getLayoutParams().width = imageSize;
-        catchBlock.setVisibility(View.VISIBLE);
+        catchBlock.setVisibility(View.INVISIBLE);
 
         bobber = (ImageView)findViewById(R.id.Bobber);
         bobber.setX(0);
@@ -146,7 +146,6 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
         //Object fish = new Fish();
         //((Fish) fish).CreateFish();
         //fishText.setText(((Fish) fish).NameOfFish());
-        /////////////////////////////////
 
         //Erick-Hobbs/////////////
         //////////////////////////
@@ -198,8 +197,6 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
                 //Start catching game here
                 ///////
                 if (startCatching){
-                    Log.d("catchblock","X = " + catchBlock.getX());
-                    Log.d("fishimage","Y = " + catchBlock.getVisibility());
                     handleCatchGame();
                     fishCatchCheck();
                     collisionCheck();
@@ -218,16 +215,19 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
                         moveTwo = false;
                     }
                 }
-
                 //////////
                 //Start Casting Game Here
                 //////////
-              if (cast){
-                    releaseRod();
+                if (!startCatching){
+                    if (cast){
+                        releaseRod();
+
+                    }
+                    moveBackground();
+                    switchToCatchGame();
 
                 }
-              moveBackground();
-                switchToCatchGame();
+
 
 
                 myHandler.sendEmptyMessageDelayed(0, 40);
@@ -418,12 +418,11 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
     //////
     private void handleCatchGame(){
         if (!catchingFish){
-//            fishImage.setX(bobber.getX());
-//            fishImage.setY(bobber.getY());
-//            catchBlock.setX(bobber.getX());
-//            catchBlock.setY(bobber.getY());
-            fishImage.setX((int)(backGround.getLayoutParams().width * 0.1f));
-            fishImage.setY(100);
+            fishImage.setX(bobber.getX() - (imageSize * 0.5f));
+            fishImage.setY(screenWidth * 0.7f);
+            catchBlock.setX(bobber.getX() - (imageSize * 0.5f));
+            catchBlock.setY(bobber.getY());
+            handleCastGame();
             catchingFish = true;
         }
         backGround.setVisibility(View.INVISIBLE);
