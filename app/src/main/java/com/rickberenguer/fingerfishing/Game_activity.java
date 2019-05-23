@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import java.io.IOException;
 import java.util.Random;
 
 public class Game_activity extends AppCompatActivity implements View.OnClickListener {
@@ -95,6 +94,18 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
     //////////////////////
     /////////////////////
 
+    ///// bobber
+    private ImageView bobber;
+
+    //// Background
+    private ImageView backGround;
+    private int bgMove;
+    private boolean movingBackground;
+    private int bgMinus = -5;
+
+    //// ends casting game
+    private boolean finishedCasting = false;
+
     private int playerX;
 
     @Override
@@ -112,20 +123,24 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
         scaleImageSize();
 
         fishImage = (ImageView)findViewById(R.id.Fish);
-        fishImage.setX(screenWidth * 0.5f);
-        fishImage.setY(screenHeight * 0.75f);
         fishImage.getLayoutParams().height = imageSize;
         fishImage.getLayoutParams().width = imageSize;
-        fishImage.setVisibility(View.INVISIBLE);
+        //fishImage.setVisibility(View.INVISIBLE);
 
         catchBlock = (ImageView)findViewById(R.id.catchBlock);
-        catchBlock.setX(screenWidth * 0.5f);
-        catchBlock.setY(screenHeight - imageSize);
         catchBlock.getLayoutParams().height = imageSize;
         catchBlock.getLayoutParams().width = imageSize;
-        catchBlock.setVisibility(View.INVISIBLE);
+        catchBlock.setVisibility(View.VISIBLE);
 
-        //Log.d("screenHeight", "" + screenHeight);
+        bobber = (ImageView)findViewById(R.id.Bobber);
+        bobber.setX(0);
+        bobber.setY(0);
+        bobber.setVisibility(View.INVISIBLE);
+
+        backGround = (ImageView)findViewById(R.id.Background);
+        backGround.getLayoutParams().height = screenHeight;
+
+
 
         //Creating object of fish, for name and size of caught fish
         //Object fish = new Fish();
@@ -183,6 +198,9 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
                 //Start catching game here
                 ///////
                 if (startCatching){
+                    Log.d("catchblock","X = " + catchBlock.getX());
+                    Log.d("fishimage","Y = " + catchBlock.getVisibility());
+                    handleCatchGame();
                     fishCatchCheck();
                     collisionCheck();
                     moveFish();
@@ -201,10 +219,16 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
                     }
                 }
 
+                //////////
+                //Start Casting Game Here
+                //////////
               if (cast){
                     releaseRod();
 
                 }
+              moveBackground();
+                switchToCatchGame();
+
 
                 myHandler.sendEmptyMessageDelayed(0, 40);
             }
@@ -241,7 +265,6 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
         switch(action){
         case MotionEvent.ACTION_DOWN:
             startTx = (int)event.getRawX();
-            Log.d("start", "" + startTx);
         break;
         case MotionEvent.ACTION_MOVE:
             movingTx = (int)event.getRawX();
@@ -251,6 +274,7 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
         case MotionEvent.ACTION_UP:
             startTx = 0;
             movingTx = 0;
+            endTx = 0;
             cast = true;
             break;
         case MotionEvent.ACTION_CANCEL:
@@ -295,7 +319,6 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
             }
             else{
                 fishImage.setY(fishImage.getY() - speed * 0.8f);
-                Log.d("Test", "MoveOne");
             }
         }
         if(moveTwo && !fishAtBottom){
@@ -306,7 +329,6 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
             else {
                 fishImage.setY(fishImage.getY() + speed * 0.8f);
                 makingMove = true;
-                Log.d("Test", "MoveTwo");
             }
         }
     }
@@ -328,13 +350,6 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
             fishAtTop = false;
         }
     }
-
-    //Need mikes help on moving camera across screen.
-    public void moveCamera(){
-        //cam.setLocation(400,cam.getLocationY(),cam.getLocationZ());
-    }
-
-
 
     // check position of both the fish and the catch block to increase progress on catch.
     //
@@ -394,20 +409,30 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
     //This starts the casting game, run this game first to establish a release
     ////////
     private void handleCastGame(){
-
+        bobber.setVisibility(View.INVISIBLE);
+        castBar.setVisibility(View.INVISIBLE);
     }
 
     //////
     //This starts the catching game, setting everything to visable and will turn catchgame to true
     //////
     private void handleCatchGame(){
-        if (catchingFish){
+        if (!catchingFish){
+//            fishImage.setX(bobber.getX());
+//            fishImage.setY(bobber.getY());
+//            catchBlock.setX(bobber.getX());
+//            catchBlock.setY(bobber.getY());
+            fishImage.setX((int)(backGround.getLayoutParams().width * 0.1f));
+            fishImage.setY(100);
+            catchingFish = true;
+        }
+        backGround.setVisibility(View.INVISIBLE);
+        backGround.setVisibility(View.VISIBLE);
             fishImage.setVisibility(View.VISIBLE);
             catchBlock.setVisibility(View.VISIBLE);
             catchProgressBar.setVisibility(View.VISIBLE);
             button1.setVisibility(View.VISIBLE);
             button2.setVisibility(View.VISIBLE);
-        }
     }
 
     /////////////
@@ -416,7 +441,6 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
     private void castRod(){
         if (movingTx < startTx){
             endTx = ((movingTx - startTx) * -1);
-            Log.d("end touch", "" +movingTx);
             rotation--;
             setPower();
             fishingPoleImage.setRotation(rotation);
@@ -425,10 +449,54 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
     }
 
     private void releaseRod(){
-        rotation++;
+        rotation = rotation + 5;
         fishingPoleImage.setRotation(rotation);
-        if (fishingPoleImage.getRotation() > 45){
-            rotation = 45;
+        throwBobber();
+        if (fishingPoleImage.getRotation() > 0){
+            rotation = 0;
+            cast = false;
+            castBar.setProgress((int)0);
+            fishingPoleImage.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void throwBobber(){
+        bobber.setY(screenHeight * 0.4f);
+        bobber.setX(0);
+        bobber.setVisibility(View.VISIBLE);
+
+
+        if(power <= 10){
+            movingBackground = true;
+        }
+        if (power == 20){
+            movingBackground = true;
+        }
+        if (power == 30){
+            movingBackground = true;
+        }
+        if (power == 40){
+            movingBackground = true;
+        }
+
+        if (power == 50){
+            movingBackground = true;
+        }
+        if (power == 60){
+            movingBackground = true;
+        }
+        if (power == 70){
+            movingBackground = true;
+        }
+
+        if (power == 80){
+            movingBackground = true;
+        }
+        if (power == 90){
+            movingBackground = true;
+        }
+        if (power == 100){
+            movingBackground = true;
         }
     }
 
@@ -440,73 +508,190 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
         setProgress();
         if (endTx < (screenWidth * 0.1f)){
             power = 10;
-            if(rotation < -4.5f){
-                rotation = -4.5f;
+            if(rotation < -9.0f){
+                rotation = -9.0f;
             }
         }
         if (endTx > (screenWidth * 0.1f) && endTx < (screenWidth * 0.2f)){
             power = 20;
-            if(rotation > -4.5f && rotation < -9f){
-                rotation = -9f;
+            if(rotation > -9.0f && rotation < -18.0f){
+                rotation = -18.0f;
             }
         }
         if ( endTx > (screenWidth * 0.2f) && endTx < (screenWidth * 0.3f)){
             power = 30;
-            if(rotation > -9f && rotation < -13.5f){
-                rotation = -13.5f;
+            if(rotation > -18.0f && rotation < -27.0f){
+                rotation = -27.0f;
             }
         }
         if (endTx > (screenWidth * 0.3f) && endTx < (screenWidth * 0.4f)){
             power = 40;
-            if(rotation > -13.5f && rotation < -18f){
-                rotation = -18f;
+            if(rotation > -27.0f && rotation < -36.0f){
+                rotation = -36.0f;
             }
         }
         if (endTx > (screenWidth * 0.4f) && endTx < (screenWidth * 0.5f)){
             power = 50;
-            if(rotation > -18f && rotation < -22.5f){
-                rotation = -22.5f;
+            if(rotation > -36.0f && rotation < -45f){
+                rotation = -45f;
             }
         }
         if (endTx > (screenWidth * 0.5f) && endTx < (screenWidth * 0.6f)){
             power = 60;
-            if(rotation > -22.5f && rotation < -25f){
-                rotation = -25f;
+            if(rotation > -45f && rotation < -54f){
+                rotation = -54f;
             }
         }
         if (endTx > (screenWidth * 0.6f) && endTx < (screenWidth * 0.7f)){
             power = 70;
-            if(rotation > -25f && rotation < -29.5f){
-                rotation = -29.5f;
+            if(rotation > -54f && rotation < -63f){
+                rotation = -63f;
             }
         }
         if (endTx > (screenWidth * 0.7f) && endTx < (screenWidth * 0.8f)){
             power = 80;
-            if(rotation > -29.5f && rotation < -34f){
-                rotation = -34f;
+            if(rotation > -63f && rotation < -72f){
+                rotation = -72f;
             }
         }
         if (endTx > (screenWidth * 0.8f) && endTx < (screenWidth * 0.9f)){
             power = 90;
-            if(rotation > -34f && rotation < -38.5f){
-                rotation = -38.5f;
+            if(rotation > -72f && rotation < -81f){
+                rotation = -81f;
             }
         }
         if (endTx > screenWidth * 0.9f){
             power = 100;
-            if(rotation > -38.5f && rotation < -45f){
+            if(rotation > -81f && rotation < -90f){
                 rotation = -45f;
             }
         }
-        if (fishingPoleImage.getRotation() < -45f){
-            rotation = -45f;
+        if (fishingPoleImage.getRotation() < -90f){
+            rotation = -90f;
             fishingPoleImage.setRotation(rotation);
+        }
+    }
+
+    private void moveBackground(){
+        if (movingBackground){
+            bgMove = (bgMove - (int)(screenWidth * 0.025f));
+            bobber.setX(bobber.getX() + screenWidth * 0.025f);
+            if (bobber.getX() >= screenWidth * .5f){
+                bobber.setX(screenWidth * 0.5f);
+            }
+            if (power == 10){
+                if (bgMove > -backGround.getLayoutParams().width * 0.1f){
+                    backGround.setX(bgMove);
+                }
+                else if (bgMove <= -backGround.getLayoutParams().width * 0.1f){
+                    bgMove = -(int)(backGround.getLayoutParams().width * 0.1f);
+                    movingBackground = false;
+                    finishedCasting = true;
+                }
+            }
+            if (power == 20){
+                if (bgMove > -backGround.getLayoutParams().width * 0.2f){
+                    backGround.setX(bgMove);
+                }
+                else if (bgMove <= -backGround.getLayoutParams().width * 0.2f){
+                    bgMove = -(int)(backGround.getLayoutParams().width * 0.2f);
+                    movingBackground = false;
+                    finishedCasting = true;
+                }
+            }
+            else if (power == 30){
+                if (bgMove > -backGround.getLayoutParams().width * 0.3f){
+                    backGround.setX(bgMove);
+                }
+                else if (bgMove <= -backGround.getLayoutParams().width * 0.3f){
+                    bgMove = -(int)(backGround.getLayoutParams().width * 0.3f);
+                    movingBackground = false;
+                    finishedCasting = true;
+                }
+            }
+            else if (power == 40){
+                if (bgMove > -backGround.getLayoutParams().width * 0.4f){
+                    backGround.setX(bgMove);
+                }
+                else if (bgMove <= -backGround.getLayoutParams().width * 0.4f){
+                    bgMove = -(int)(backGround.getLayoutParams().width * 0.4f);
+                    movingBackground = false;
+                    finishedCasting = true;
+                }
+            }
+            else if (power == 50){
+                if (bgMove > - backGround.getLayoutParams().width * 0.5f){
+                    backGround.setX(bgMove);
+                }
+                else if (bgMove <= -backGround.getLayoutParams().width * 0.5f){
+                    bgMove = -(int)(backGround.getLayoutParams().width * 0.5f);
+                    movingBackground = false;
+                    finishedCasting = true;
+                }
+            }
+            else if (power == 60){
+                if (bgMove > - backGround.getLayoutParams().width * 0.6f){
+                    backGround.setX(bgMove);
+                }
+                else if (bgMove <= -backGround.getLayoutParams().width * 0.6f){
+                    bgMove = -(int)(backGround.getLayoutParams().width * 0.6f);
+                    movingBackground = false;
+                    finishedCasting = true;
+                }
+            }
+            else if (power == 70){
+                if (bgMove > - backGround.getLayoutParams().width * 0.625f){
+                    backGround.setX(bgMove);
+                }
+                else if (bgMove <= -backGround.getLayoutParams().width * 0.625f){
+                    bgMove = -(int)(backGround.getLayoutParams().width * 0.625f);
+                    movingBackground = false;
+                    finishedCasting = true;
+                }
+            }
+            else if (power == 80){
+                if (bgMove > -backGround.getLayoutParams().width * 0.675f){
+                    backGround.setX(bgMove);
+                }
+                else if (bgMove <= -backGround.getLayoutParams().width * 0.675f){
+                    bgMove = -(int)(backGround.getLayoutParams().width * 0.675f);
+                    movingBackground = false;
+                    finishedCasting = true;
+                }
+            }
+            else if (power == 90){
+                if (bgMove > -backGround.getLayoutParams().width * 0.725f){
+                    backGround.setX(bgMove);
+                }
+                else if (bgMove <= -backGround.getLayoutParams().width * 0.725f){
+                    bgMove = -(int)(backGround.getLayoutParams().width * 0.725f);
+                    movingBackground = false;
+                    finishedCasting = true;
+                }
+            }
+            else if (power == 100){
+                if (bgMove > -backGround.getLayoutParams().width * 0.75f){
+                    backGround.setX(bgMove);
+                }
+                else if (bgMove <= -backGround.getLayoutParams().width * 0.75f){
+                    bgMove = -(int)(backGround.getLayoutParams().width * 0.75f);
+                    movingBackground = false;
+                    finishedCasting = true;
+                }
+            }
+        }
+    }
+
+    private void switchToCatchGame(){
+        if (finishedCasting){
+            startCatching = true;
         }
     }
 
     public void playSound(){
         soundPool.play(sound2, 1, 1, 0, 0, 1);
     }
+
     @Override
     protected void onDestroy(){
         super.onDestroy();

@@ -8,7 +8,7 @@
     tools:context=".Game_activity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/Background"
         android:layout_width="1794dp"
         android:layout_height="742dp"
         android:layout_marginTop="8dp"
@@ -40,16 +40,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.95" />
-
-    <ImageView
-        android:id="@+id/catchBlock"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:rotation="90"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/catchblock" />
 
     <ImageView
         android:id="@+id/Fish"
@@ -126,5 +116,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.932" />
+
+    <ImageView
+        android:id="@+id/Bobber"
+        android:layout_width="83dp"
+        android:layout_height="111dp"
+        android:layout_marginEnd="164dp"
+        android:layout_marginBottom="308dp"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonDown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/bobber" />
+
+    <ImageView
+        android:id="@+id/catchBlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/catchblock" />
 
 </android.support.constraint.ConstraintLayout>
