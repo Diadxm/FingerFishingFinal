@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import android.graphics.Point;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Handler;
@@ -88,8 +89,9 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
     private float rotation;
 
     private SoundPool soundPool;
-    private int sound1;
-    private int sound2;
+    private int sound1;//rod swoosh
+    private boolean soundPlaying = false;
+    private MediaPlayer mediaPlayer;
 
     //////////////////////
     /////////////////////
@@ -163,7 +165,9 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
         }
 
         sound1 = soundPool.load(this, R.raw.ropeswoosh,1);
-        sound2 = soundPool.load(this, R.raw.fishingtheme,1);
+        mediaPlayer = MediaPlayer.create(this, R.raw.backgroundmusic);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
 
         fishingPoleImage = (ImageView)findViewById(R.id.fishingPole);
 
@@ -231,8 +235,13 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
 
 
                 myHandler.sendEmptyMessageDelayed(0, 40);
+
             }
+
+
+
         };
+
         myHandler.sendEmptyMessage(0);
     }
 
@@ -443,13 +452,15 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
             rotation--;
             setPower();
             fishingPoleImage.setRotation(rotation);
-            soundPool.play(sound1, 1, 1, 0, 0, 0.5f);
+
         }
+        soundPlaying = false;
     }
 
     private void releaseRod(){
         rotation = rotation + 5;
         fishingPoleImage.setRotation(rotation);
+
         throwBobber();
         if (fishingPoleImage.getRotation() > 0){
             rotation = 0;
@@ -496,6 +507,16 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
         }
         if (power == 100){
             movingBackground = true;
+        }
+        if (fishingPoleImage.getRotation() > 45){
+            rotation = 45;
+
+        }
+
+        if (soundPlaying == false){
+            soundPlaying = true;
+            soundPool.play(sound1, 1, 1, 0, 0, 1);
+
         }
     }
 
@@ -689,6 +710,13 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
 
     public void playSound(){
         soundPool.play(sound2, 1, 1, 0, 0, 1);
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        mediaPlayer.release();
+        finish();
+
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -22,28 +23,16 @@ public class MainActivity extends AppCompatActivity {
     int screenWidth;
     int screenHeight;
 
-    private SoundPool soundPool;
-    private int sound1;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .build();
-            soundPool = new SoundPool.Builder()
-                    .setMaxStreams(5)
-                    .setAudioAttributes(audioAttributes)
-                    .build();
-        } else {
-            soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-        }
-
-        sound1 = soundPool.load(this, R.raw.fishingtheme,1);
+        mediaPlayer = MediaPlayer.create(this, R.raw.mainmenumusic);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
 
         //find out the width and height of the screen
         Display display = getWindowManager().getDefaultDisplay();
@@ -77,12 +66,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        playSound();
-    }
 
-    public void playSound(){
-
-        soundPool.play(sound1, 1, 1, 0, 0, 1);
     }
 
     public void openHiScoreActivity(){
@@ -93,5 +77,12 @@ public class MainActivity extends AppCompatActivity {
     public void openGame_activity(){
         Intent intent = new Intent(this, Game_activity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        mediaPlayer.release();
+        finish();
     }
 }
