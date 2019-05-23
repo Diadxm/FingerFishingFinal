@@ -360,6 +360,15 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private void loadWinLoss(){
+        if (fishCaught){
+
+        }
+        if (fishLost){
+
+        }
+    }
+
     // check position of both the fish and the catch block to increase progress on catch.
     //
     private void fishCatchCheck(){
@@ -376,9 +385,11 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
 
         if (catchProgressBar.getProgress() == 100){
             fishCaught = true;
+            //load new activity for caught
         }
         if (catchProgressBar.getProgress() == 0){
             fishLost = true;
+            //load new activity for losing fish
         }
     }
 
@@ -434,8 +445,7 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
             handleCastGame();
             catchingFish = true;
         }
-        backGround.setVisibility(View.INVISIBLE);
-        backGround.setVisibility(View.VISIBLE);
+            backGround.setVisibility(View.VISIBLE);
             fishImage.setVisibility(View.VISIBLE);
             catchBlock.setVisibility(View.VISIBLE);
             catchProgressBar.setVisibility(View.VISIBLE);
@@ -707,9 +717,6 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
             startCatching = true;
         }
     }
-
-    public void playSound(){
-        soundPool.play(sound2, 1, 1, 0, 0, 1);
 
     @Override
     protected void onPause(){
