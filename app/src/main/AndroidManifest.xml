@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".lostFishActivity"></activity>
+        <activity android:name=".caughtFishActivity" />
         <activity android:name=".HiScoreActivity" />
         <activity android:name=".Game_activity" />
         <activity android:name=".MainActivity">

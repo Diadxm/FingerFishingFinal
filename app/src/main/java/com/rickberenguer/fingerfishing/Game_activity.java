@@ -1,5 +1,6 @@
 package com.rickberenguer.fingerfishing;
 
+import android.content.Intent;
 import android.graphics.Camera;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
@@ -9,6 +10,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import java.util.Random;
+import java.util.concurrent.Delayed;
 
 public class Game_activity extends AppCompatActivity implements View.OnClickListener {
     private TextView textView3;
@@ -362,10 +365,10 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
 
     private void loadWinLoss(){
         if (fishCaught){
-
+            openCaughtFishActivity();
         }
         if (fishLost){
-
+            openLostFishActivity();
         }
     }
 
@@ -386,10 +389,12 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
         if (catchProgressBar.getProgress() == 100){
             fishCaught = true;
             //load new activity for caught
+            loadWinLoss();
         }
         if (catchProgressBar.getProgress() == 0){
             fishLost = true;
             //load new activity for losing fish
+            loadWinLoss();
         }
     }
 
@@ -724,6 +729,16 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
         mediaPlayer.release();
         finish();
 
+    }
+
+    public void openCaughtFishActivity(){
+        Intent intent = new Intent(this, caughtFishActivity.class);
+        startActivity(intent);
+    }
+
+    public void openLostFishActivity(){
+        Intent intent = new Intent(this, lostFishActivity.class);
+        startActivity(intent);
     }
 
     @Override
