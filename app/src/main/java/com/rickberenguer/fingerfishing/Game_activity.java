@@ -365,9 +365,11 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
 
     private void loadWinLoss(){
         if (fishCaught){
+            catchingFish = false;
             openCaughtFishActivity();
         }
         if (fishLost){
+            catchingFish = false;
             openLostFishActivity();
         }
     }
