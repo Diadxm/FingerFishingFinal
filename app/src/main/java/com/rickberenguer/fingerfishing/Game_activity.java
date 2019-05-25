@@ -106,6 +106,7 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
     private ImageView backGround;
     private int bgMove;
     private boolean movingBackground;
+    public boolean winLoss = false;
     private int bgMinus = -5;
 
     //// ends casting game
@@ -154,23 +155,23 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
 
         //Erick-Hobbs/////////////
         //////////////////////////
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .build();
-            soundPool = new SoundPool.Builder()
-                    .setMaxStreams(5)
-                    .setAudioAttributes(audioAttributes)
-                    .build();
-        } else {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+//            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+//                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+//                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+//                    .build();
+//            soundPool = new SoundPool.Builder()
+//                    .setMaxStreams(5)
+//                    .setAudioAttributes(audioAttributes)
+//                    .build();
+//        } else {
             soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-        }
+//        }
 
         sound1 = soundPool.load(this, R.raw.ropeswoosh,1);
-        mediaPlayer = MediaPlayer.create(this, R.raw.backgroundmusic);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.start();
+        //mediaPlayer = MediaPlayer.create(this, R.raw.backgroundmusic);
+        //mediaPlayer.setLooping(true);
+        //mediaPlayer.start();
 
         fishingPoleImage = (ImageView)findViewById(R.id.fishingPole);
 
@@ -363,16 +364,25 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void loadWinLoss(){
-        if (fishCaught){
-            catchingFish = false;
-            openCaughtFishActivity();
+    /*private void loadWinLoss(){
+        if(winLoss){
+
+            if (fishCaught){
+                fishCaught = true;
+                startCatching = false;
+                catchingFish = false;
+                openCaughtFishActivity();
+            }
+            if (fishLost){
+                fishLost = false;
+                startCatching = false;
+                catchingFish = false;
+                openLostFishActivity();
+            }
+            winLoss = false;
         }
-        if (fishLost){
-            catchingFish = false;
-            openLostFishActivity();
-        }
-    }
+
+    }*/
 
     // check position of both the fish and the catch block to increase progress on catch.
     //
@@ -391,12 +401,24 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
         if (catchProgressBar.getProgress() == 100){
             fishCaught = true;
             //load new activity for caught
-            loadWinLoss();
+            //winLoss = true;
+            //loadWinLoss();
+            startCatching = false;
+            catchingFish = false;
+
+            Intent intent = new Intent(this, caughtFishActivity.class);
+            startActivity(intent);
         }
         if (catchProgressBar.getProgress() == 0){
             fishLost = true;
             //load new activity for losing fish
-            loadWinLoss();
+            //winLoss = true;
+            //loadWinLoss();
+            startCatching = false;
+            catchingFish = false;
+
+            Intent intent = new Intent(this, lostFishActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -728,12 +750,12 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onPause(){
         super.onPause();
-        mediaPlayer.release();
-        finish();
+        //mediaPlayer.release();
+        //finish();
 
     }
 
-    public void openCaughtFishActivity(){
+    /*public void openCaughtFishActivity(){
         Intent intent = new Intent(this, caughtFishActivity.class);
         startActivity(intent);
     }
@@ -741,13 +763,13 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
     public void openLostFishActivity(){
         Intent intent = new Intent(this, lostFishActivity.class);
         startActivity(intent);
-    }
+    }*/
 
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        soundPool.release();
-        soundPool = null;
+        //soundPool.release();
+        //soundPool = null;
     }
     ///////////////////
     //end of Erick-Hobbs Casting rod methods

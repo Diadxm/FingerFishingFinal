@@ -19,7 +19,7 @@ public class lostFishActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_caught_fish);
+        setContentView(R.layout.activity_lost_fish);
 
         //find out the width and height of the screen
         Display display = getWindowManager().getDefaultDisplay();
@@ -28,7 +28,7 @@ public class lostFishActivity extends AppCompatActivity {
         screenWidth = size.x;
         screenHeight = size.y;
 
-        castAgainButton = (Button) findViewById(R.id.castAgain);
+        castAgainButton = (Button) findViewById(R.id.castAgain2);
         castAgainButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -36,7 +36,7 @@ public class lostFishActivity extends AppCompatActivity {
             }
         });
 
-        mainMenuButton = (Button) findViewById(R.id.mainMenu);
+        mainMenuButton = (Button) findViewById(R.id.mainMenu2);
         mainMenuButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -48,10 +48,12 @@ public class lostFishActivity extends AppCompatActivity {
     public void openGame_activity(){
         Intent intent = new Intent(this, Game_activity.class);
         startActivity(intent);
+        finish();
     }
 
     public void openMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 }
