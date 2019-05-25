@@ -405,7 +405,6 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
             //loadWinLoss();
             startCatching = false;
             catchingFish = false;
-
             Intent intent = new Intent(this, caughtFishActivity.class);
             startActivity(intent);
         }
@@ -416,7 +415,6 @@ public class Game_activity extends AppCompatActivity implements View.OnClickList
             //loadWinLoss();
             startCatching = false;
             catchingFish = false;
-
             Intent intent = new Intent(this, lostFishActivity.class);
             startActivity(intent);
         }
